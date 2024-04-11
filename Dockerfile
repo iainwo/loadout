@@ -3,7 +3,7 @@ FROM python:3.11.9-slim-bullseye
 RUN apt-get update \
         && apt-get install -y \
             curl \
-    # install Neovim
+    # install Neovim 
     && mkdir /scratch \
     && curl -L https://github.com/neovim/neovim/releases/latest/download/nvim.appimage -o "/scratch/nvim.appimage" \
     && chmod u+x /scratch/nvim.appimage \
