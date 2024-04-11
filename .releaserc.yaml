@@ -1,8 +1,8 @@
 ---
-branch: main
-ci: true
-debug: true
-dryRun: false
+branches:
+  - main
+preset: "angular"
+tagFormat: "${version}"
 plugins:
     - "@semantic-release/commit-analyzer"
     - "@semantic-release/release-notes-generator"
@@ -11,22 +11,16 @@ plugins:
     - "@semantic-release/github"
 
 verifyConditions:
-  - '@semantic-release/changelog'
-    # Verify the presence and the validity of the configuration
   - '@semantic-release/git'
-    # Verify the presence and the validity of the Git authentication
-    # and release configuration
   - '@semantic-release/github'
-    # Verify the presence and the validity of the GitHub authentication
-    # and release configuration
-
-publish:
-- path: "@semantic-release/github"
 
 prepare:
   - path: "@semantic-release/git"
     message: "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
     assets: ["CHANGELOG.md"]
+
+publish:
+- path: "@semantic-release/github"
 
 success:
   - "@semantic-release/github"
