@@ -3,6 +3,7 @@ FROM python:3.11.9-slim-bullseye
 ARG USER_NAME=root
 ARG USER_PASS=iainwong
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update \
         && apt-get install -y --no-install-recommends \
             curl=7.74.0-1.3+deb11u11 \
@@ -13,7 +14,7 @@ RUN apt-get update \
         && rm -rf /var/lib/apt/lists/* \
     # configure ssh
     && mkdir /var/run/sshd \
-    && echo 'root:root' |chpasswd \
+    && echo 'root:root' | chpasswd \
     && sed -ri 's/^#?PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config \
     && sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config \
     && mkdir /root/.ssh \
