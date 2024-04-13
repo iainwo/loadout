@@ -2,6 +2,7 @@ FROM python:3.11.9-slim-bullseye
 
 ARG GIT_USER="Iain Wong"
 ARG GIT_EMAIL="iainwong@outlook.com"
+ARG HOME="/root"
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update \
@@ -36,6 +37,15 @@ RUN apt-get update \
     && curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl" \
     && chmod +x ./kubectl \
     && mv ./kubectl /usr/local/bin/kubectl
+
+COPY prezto/.aliases.zsh "$HOME/"
+COPY prezto/.functions.zsh "$HOME/"
+COPY prezto/.zlogin "$HOME/"
+COPY prezto/.zlogout "$HOME/"
+COPY prezto/.zpreztorc "$HOME/"
+COPY prezto/.zprofile "$HOME/"
+COPY prezto/.zshenv "$HOME/"
+COPY prezto/.zshrc "$HOME/"
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
