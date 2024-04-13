@@ -10,10 +10,10 @@ RUN apt-get update \
             openssh-server=1:8.4p1-5+deb11u3 \
             xauth=1:1.1-1 \
             xclip=0.13-2 \
-            zsh \
-            tmux \
-            git \
-            tree \
+            zsh=5.8-6+deb11u1 \
+            tmux=3.1c-1+deb11u1 \
+            git=1:2.30.2-1+deb11u2 \
+            tree=1.8.0-1+b1 \
         && apt-get clean \
         && rm -rf /var/lib/apt/lists/* \
     # configure ssh
