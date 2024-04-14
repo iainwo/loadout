@@ -42,7 +42,7 @@ RUN apt-get update \
     && chmod +x ./kubectl \
     && mv ./kubectl /usr/local/bin/kubectl \
     && addgroup --gid "$GROUP_ID" "$USER_NAME" \
-    && useradd -rm -d "$HOME" -s /bin/zsh -g "$GROUP_ID" -G sudo -u "$USER_ID" "$USER_NAME" -p "$(openssl passwd -1 $USER_NAME)"  \
+    && useradd -l -rm -d "$HOME" -s /bin/zsh -g "$GROUP_ID" -G sudo -u "$USER_ID" "$USER_NAME" -p "$(openssl passwd -1 $USER_NAME)"  \
     && mkdir - "$HOME/.ssh/" \
     && ssh-keygen -f "$HOME/.ssh/ssh_host_rsa_key" -N '' -t rsa \
     && ssh-keygen -f "$HOME/.ssh/ssh_host_dsa_key" -N '' -t dsa \
