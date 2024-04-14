@@ -1,0 +1,8 @@
+Port 22
+HostKey /home/iainwong/.ssh/ssh_host_rsa_key
+HostKey /home/iainwong/.ssh/ssh_host_dsa_key
+AuthorizedKeysFile  /home/iainwong/.ssh/authorized_keys
+ChallengeResponseAuthentication no
+UsePAM yes
+Subsystem   sftp    /usr/lib/ssh/sftp-server
+PidFile /home/iainwong/.ssh/sshd.pid
