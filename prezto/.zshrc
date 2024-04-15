@@ -6,7 +6,7 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # load every completion after autocomplete loads
-for file in $HOME/*.zsh
+for file in $HOME/.*.zsh
 do
   source $file
 done
