@@ -35,7 +35,6 @@ RUN apt-get update \
     && mkdir -p "$HOME/.config/nvim/" \
     # install nodeVersionmanager + nodejs
     && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
-    # shellcheck source=$HOME/.nvm/nvm.sh
     && . "$HOME/.nvm/nvm.sh" \
     && nvm install v20.12.2 \
     && nvm alias default v20.12.2 \
@@ -51,7 +50,7 @@ RUN apt-get update \
     && mv ./kubectl /usr/local/bin/kubectl \
     && addgroup --gid "$GROUP_ID" "$USER_NAME" \
     && useradd -l -rm -d "$HOME" -s /bin/zsh -g "$GROUP_ID" -G sudo -u "$USER_ID" "$USER_NAME" -p "$(openssl passwd -1 $USER_NAME)"  \
-    && mkdir - "$HOME/.ssh/" \
+    && mkdir -p "$HOME/.ssh/" \
     && ssh-keygen -f "$HOME/.ssh/ssh_host_rsa_key" -N '' -t rsa \
     && ssh-keygen -f "$HOME/.ssh/ssh_host_dsa_key" -N '' -t dsa \
     # configure neovim
