@@ -35,10 +35,13 @@ RUN apt-get update \
     && mkdir -p "$HOME/.config/nvim/" \
     # install nodeVersionmanager + nodejs
     && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
-    && . "$HOME/.nvm/nvm.sh" \
-    && nvm install v20.12.2 \
-    && nvm alias default v20.12.2 \
-    && nvm use default \
+    && /bin/bash -c \
+    " \
+    source $HOME/.nvm/nvm.sh; \
+    nvm install v20.12.2; \
+    nvm alias default v20.12.2; \
+    nvm use default \
+    " \
     # install other tools
     && curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash \
     && git config --global user.email "$GIT_EMAIL" \
