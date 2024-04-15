@@ -19,6 +19,7 @@ RUN apt-get update \
             git=1:2.30.2-1+deb11u2 \
             tree=1.8.0-1+b1 \
             sudo=1.9.5p2-3+deb11u1 \
+            ripgrep=12.1.1-1+b1 \
         && apt-get clean \
         && rm -rf /var/lib/apt/lists/* \
     # configure ssh
@@ -32,6 +33,15 @@ RUN apt-get update \
     && tar -C /opt -xzf nvim-linux64.tar.gz \
     && ln -s /opt/nvim-linux64/bin/nvim /usr/bin/nvim \
     && mkdir -p "$HOME/.config/nvim/" \
+    # install nodeVersionmanager + nodejs
+    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
+    && . "$HOME/.nvm/nvm.sh" \
+    && nvm install v20.12.2 \
+    && nvm alias default v20.12.2 \
+    && nvm use default \:nvm alias default v20.12.2 \
+    && nvm use default \nvm alias default v20.12.2 \
+    && nvm use default \nvm alias default v20.12.2 \
+    && nvm use default \
     # install other tools
     && curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash \
     && git config --global user.email "$GIT_EMAIL" \
@@ -46,8 +56,12 @@ RUN apt-get update \
     && mkdir - "$HOME/.ssh/" \
     && ssh-keygen -f "$HOME/.ssh/ssh_host_rsa_key" -N '' -t rsa \
     && ssh-keygen -f "$HOME/.ssh/ssh_host_dsa_key" -N '' -t dsa \
+    # configure neovim
+    && mkdir -p "$HOME/.config/nvim" \
     && chown -R "$USER_ID":"$GROUP_ID" "$HOME"
-    #&& adduser --create-home --shell /bin/zsh --uid "$USER_ID" --gid "$GROUP_ID" --gecos "" --disabled-password "$USER_NAME"
+
+ENV NODE_PATH "$HOME/.nvm/versions/node/v20.12.2/lib/node_modules"
+ENV PATH      "$HOME/.nvm/versions/node/v20.12.2/bin/:$PATH"
 
 
 USER "$USER_NAME"
@@ -65,6 +79,8 @@ COPY prezto/.zshrc "$HOME/"
 COPY tmux/.tmux.conf "$HOME/"
 
 COPY ssh/sshd_config "$HOME/.ssh/"
+
+COPY neovim/ "$HOME/.config/nvim/"
 
 USER root
 RUN chown -R "$USER_ID":"$GROUP_ID" "$HOME"
