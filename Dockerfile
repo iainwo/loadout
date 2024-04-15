@@ -38,9 +38,6 @@ RUN apt-get update \
     && . "$HOME/.nvm/nvm.sh" \
     && nvm install v20.12.2 \
     && nvm alias default v20.12.2 \
-    && nvm use default \:nvm alias default v20.12.2 \
-    && nvm use default \nvm alias default v20.12.2 \
-    && nvm use default \nvm alias default v20.12.2 \
     && nvm use default \
     # install other tools
     && curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash \
