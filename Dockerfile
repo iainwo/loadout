@@ -35,6 +35,7 @@ RUN apt-get update \
     && mkdir -p "$HOME/.config/nvim/" \
     # install nodeVersionmanager + nodejs
     && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
+    # shellcheck source=$HOME/.nvm/nvm.sh
     && . "$HOME/.nvm/nvm.sh" \
     && nvm install v20.12.2 \
     && nvm alias default v20.12.2 \
