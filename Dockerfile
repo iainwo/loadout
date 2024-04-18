@@ -36,7 +36,7 @@ RUN apt-get update \
             ripgrep=12.1.1-1+b1 \
             make=4.3-4.1 \
             build-essential=12.9 \
-            tmux \
+            tmux=3.1c-1+deb11u1 \
         && apt-get clean \
         && rm -rf /var/lib/apt/lists/* \
     # configure ssh
