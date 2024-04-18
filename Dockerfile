@@ -7,6 +7,20 @@ ARG GROUP_ID=1000
 ARG USER_NAME="iainwong"
 ARG HOME="/home/$USER_NAME"
 
+RUN mkdir -p "$HOME/.config/nvim"
+
+COPY prezto/.aliases.zsh "$HOME/"
+COPY prezto/.functions.zsh "$HOME/"
+COPY prezto/.zlogin "$HOME/"
+COPY prezto/.zlogout "$HOME/"
+COPY prezto/.zpreztorc "$HOME/"
+COPY prezto/.zprofile "$HOME/"
+COPY prezto/.zshenv "$HOME/"
+COPY prezto/.zshrc "$HOME/"
+COPY tmux/.tmux.conf "$HOME/"
+COPY ssh/sshd_config "$HOME/.ssh/"
+COPY neovim/ "$HOME/.config/nvim/"
+
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update \
         && apt-get install -y --no-install-recommends \
@@ -22,6 +36,7 @@ RUN apt-get update \
             ripgrep=12.1.1-1+b1 \
             make=4.3-4.1 \
             build-essential=12.9 \
+            tmux \
         && apt-get clean \
         && rm -rf /var/lib/apt/lists/* \
     # configure ssh
@@ -58,8 +73,12 @@ RUN apt-get update \
     && mkdir -p "$HOME/.ssh/" \
     && ssh-keygen -f "$HOME/.ssh/ssh_host_rsa_key" -N '' -t rsa \
     && ssh-keygen -f "$HOME/.ssh/ssh_host_dsa_key" -N '' -t dsa \
+    # install tmux
+    && echo "Installing Tmux plugins..." \
+    && git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm" \
+    && "$HOME/.tmux/plugins/tpm/bin/install_plugins" all \
+    && "$HOME/.tmux/plugins/tpm/bin/update_plugins" all \
     # configure neovim
-    && mkdir -p "$HOME/.config/nvim" \
     && chown -R "$USER_ID":"$GROUP_ID" "$HOME"
 
 ENV NODE_PATH "$HOME/.nvm/versions/node/v20.12.2/lib/node_modules"
@@ -69,25 +88,9 @@ ENV PATH      "$HOME/.nvm/versions/node/v20.12.2/bin/:$PATH"
 USER "$USER_NAME"
 WORKDIR "$HOME"
 
-COPY prezto/.aliases.zsh "$HOME/"
-COPY prezto/.functions.zsh "$HOME/"
-COPY prezto/.zlogin "$HOME/"
-COPY prezto/.zlogout "$HOME/"
-COPY prezto/.zpreztorc "$HOME/"
-COPY prezto/.zprofile "$HOME/"
-COPY prezto/.zshenv "$HOME/"
-COPY prezto/.zshrc "$HOME/"
-
-COPY tmux/.tmux.conf "$HOME/"
-
-COPY ssh/sshd_config "$HOME/.ssh/"
-
-COPY neovim/ "$HOME/.config/nvim/"
-
 USER root
 RUN chown -R "$USER_ID":"$GROUP_ID" "$HOME"
 USER "$USER_NAME"
-
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D", "-f", "/home/iainwong/.ssh/sshd_config"]
