@@ -20,6 +20,8 @@ RUN apt-get update \
             tree=1.8.0-1+b1 \
             sudo=1.9.5p2-3+deb11u1 \
             ripgrep=12.1.1-1+b1 \
+            make=4.3-4.1 \
+            build-essential=12.9 \
         && apt-get clean \
         && rm -rf /var/lib/apt/lists/* \
     # configure ssh
