@@ -5,12 +5,13 @@
 ## How-to: Use Loadout
 
 ```bash
-docker build -t iainwong/loadout
-docker run -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY -p 2022:22 -d iainwong/loadout
-ssh -X root@localhost -p 2022
-export DISPLAY=:0
-
-# in neovim run set clipboard+=unnamedplus
+docker build -t iainwong/loadout .
+docker run \
+  -p 2022:22 \
+  -v /my_ssh_key:/home/iainwong/.ssh/id_ed25519
+  -v /my_ssh_key.pub:/home/iainwong/.ssh/id_ed25519.pub
+  -v /my_git_dir/:/home/iainwong/git/
+  iainwong/loadout
 ```
 
 ## How-to: Setup Development Environment
