@@ -1,12 +1,10 @@
 <h1 align="center" style="border-bottom: none;">🐳🚚 loadout</h1>
-<h3 align="center">Fully automated version management and package publishing</h3>
+<h3 align="center">A containerized environment for development</h3>
 <p align="center">
   <a href="#badge">
     <img alt="semantic-release: angular" src="https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release">
   </a>
 </p>
-
-**loadout** is a containerized environment for development.
 
 ## Highlights
 
