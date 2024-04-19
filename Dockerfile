@@ -1,5 +1,8 @@
 FROM python:3.11.9-slim-bullseye
 
+ENV NODE_PATH "$HOME/.nvm/versions/node/v20.12.2/lib/node_modules"
+ENV PATH      "$HOME/.nvm/versions/node/v20.12.2/bin/:$PATH"
+
 ARG GIT_USER="Iain Wong"
 ARG GIT_EMAIL="iainwong@outlook.com"
 ARG USER_ID=1000
@@ -20,6 +23,7 @@ COPY prezto/.zshrc "$HOME/"
 COPY tmux/.tmux.conf "$HOME/"
 COPY ssh/sshd_config "$HOME/.ssh/"
 COPY neovim/ "$HOME/.config/nvim/"
+COPY entrypoint.sh /entrypoint.sh
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update \
@@ -78,19 +82,20 @@ RUN apt-get update \
     && git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm" \
     && "$HOME/.tmux/plugins/tpm/bin/install_plugins" all \
     && "$HOME/.tmux/plugins/tpm/bin/update_plugins" all \
+    # install nvim plugins
+    && nvim --headless "+Lazy! sync" +qa \
     # configure neovim
     && chown -R "$USER_ID":"$GROUP_ID" "$HOME"
-
-ENV NODE_PATH "$HOME/.nvm/versions/node/v20.12.2/lib/node_modules"
-ENV PATH      "$HOME/.nvm/versions/node/v20.12.2/bin/:$PATH"
 
 
 USER "$USER_NAME"
 WORKDIR "$HOME"
 
 USER root
-RUN chown -R "$USER_ID":"$GROUP_ID" "$HOME"
+RUN chown -R "$USER_ID":"$GROUP_ID" "$HOME" \
+    && chmod +x /entrypoint.sh
 USER "$USER_NAME"
 
 EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D", "-f", "/home/iainwong/.ssh/sshd_config"]
+# CMD ["/usr/sbin/sshd", "-D", "-f", "/home/iainwong/.ssh/sshd_config"]
+ENTRYPOINT ["/entrypoint.sh"]
