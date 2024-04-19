@@ -1,6 +1,19 @@
-# loadout
+<h1 align="center" style="border-bottom: none;">🐳🚚 loadout</h1>
+<h3 align="center">Fully automated version management and package publishing</h3>
+<p align="center">
+  <a href="#badge">
+    <img alt="semantic-release: angular" src="https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release">
+  </a>
+</p>
 
- [![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
+**loadout** is a containerized environment for development.
+
+## Highlights
+
+- ZSH
+- Prezto for ZSH
+- Tmux
+- Neovim
 
 ## How-to: Use Loadout
 
